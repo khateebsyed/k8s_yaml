@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: business-critical-app-amazon
+spec:
+  containers:
+  - name: cnt
+    image: nginx
+  nodeName: eoc-kubenode1

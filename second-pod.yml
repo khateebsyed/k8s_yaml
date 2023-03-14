@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: second-pod
+  labels:
+    app: hello-world-app
+spec:
+  containers:
+  - name: second
+    image: "gcr.io/google-samples/hello-app:2.0"

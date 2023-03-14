@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: manual-pod-disktype
+spec:
+  containers:
+  - name: cnt
+    image: nginx
+  nodeSelector:
+    disktype: ssd

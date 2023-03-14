@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-server
+spec:
+  containers:
+  - name: web-container
+    image: nginx
+    
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name:nfs-volume
+  volumes:
+  - name: nfs-volume
+    persistentVolumeClaim:
+      claimName: pvc1
