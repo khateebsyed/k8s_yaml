@@ -1,7 +1,9 @@
 #!/bin/bash
 
 # Update the system
-sudo apt update ; sudo apt upgrade -y
+sudo apt-get update -y
+
+sudo apt-get remove -y -qq docker-ce docker-ce-cli containerd.io docker-scan-plugin docker-compose-plugin docker-ce-rootless-extras docker-buildx-plugin
 
 # Install necessary software
 sudo apt install curl apt-transport-https vim git wget gnupg2 software-properties-common apt-transport-https ca-certificates -y
@@ -55,3 +57,21 @@ containerd config default | sudo tee /etc/containerd/config.toml
 sudo sed -e 's/SystemdCgroup = false/SystemdCgroup = true/g' -i /etc/containerd/config.toml
 sudo systemctl restart containerd
 sudo systemctl enable containerd
+
+# Configure the cluster
+sudo kubeadm init  | sudo tee /var/log/kubeinit.log
+
+# Configure the non-root user to use kubectl
+mkdir -p $HOME/.kube
+sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# Use Calico as the network plugin
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
+sleep 10
+kubectl taint node  --all node-role.kubernetes.io/control-plane:NoSchedule-
+sleep 10
+# check the cluster
+kubectl get nodes
+
+echo "Cluster setup completed"
