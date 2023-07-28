@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-server
+  annotations: wget https://raw.githubusercontent.com/khateebsyed/k8s_yaml/main/pod-annotate.yaml
+spec:
+  containers:
+  - name: web-server
+    image: nginx
