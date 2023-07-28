@@ -7,4 +7,3 @@ spec:
   containers:
   - name: web-server
     image: nginx
-    
